@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "343039741050",
+    "project_id": "todo-app-426615",
+    "storage_bucket": "todo-app-426615.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343039741050:android:6d5827051bf605abb13fc3",
+        "android_client_info": {
+          "package_name": "com.example.learn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "343039741050-sve6qhih9f59a1uef0ttcvj4mdm3eudr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.learn",
+            "certificate_hash": "868f43f4c22f48ce3dedfd7b1545976f566903ac"
+          }
+        },
+        {
+          "client_id": "343039741050-rilqin2409vmjb4gjdeilsi7qcovt72s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkRECUejP0fYhOmQTz8LRX-8HpQMh3LW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "343039741050-rilqin2409vmjb4gjdeilsi7qcovt72s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "343039741050-mubum7efhdt83fqfa064df4aacktskuf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.learn"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343039741050:android:1bc9c0d351a81deab13fc3",
+        "android_client_info": {
+          "package_name": "com.example.todo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "343039741050-rilqin2409vmjb4gjdeilsi7qcovt72s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkRECUejP0fYhOmQTz8LRX-8HpQMh3LW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "343039741050-rilqin2409vmjb4gjdeilsi7qcovt72s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "343039741050-mubum7efhdt83fqfa064df4aacktskuf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.learn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
