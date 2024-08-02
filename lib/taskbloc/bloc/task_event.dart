@@ -49,3 +49,12 @@ class TaskUncheckEvent extends TaskEvent {
   final int index;
   TaskUncheckEvent({required this.index});
 }
+
+
+class InitialFetchEvent extends TaskEvent{
+  
+}
+
+class ShowTasksEvent extends TaskEvent{
+  
+}

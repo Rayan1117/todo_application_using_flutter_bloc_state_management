@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:todo/json_model/json_model.dart';
 import 'package:todo/ui/completed_task.dart';
 import 'package:todo/taskbloc/bloc/task_bloc.dart';
 import 'package:todo/ui/add_task_page.dart';
@@ -22,21 +21,7 @@ class _TaskPageState extends State<TaskPage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<TaskBloc>(context).add(
-      AddNewTaskEvent(),
-    );
-    try {
-      getTasks();
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  getTasks() async {
-    var task = await FirebaseFirestore.instance.collection('Tasks').get();
-    var taskModel = task.docs.map((value) =>
-        TaskModel(name: value['name'], description: value["description"]));
-    print(taskModel.toList()[0].description);
+    BlocProvider.of<TaskBloc>(context).add(InitialFetchEvent());
   }
 
   final GlobalKey<FormFieldState> titleKey = GlobalKey<FormFieldState>();
@@ -53,11 +38,11 @@ class _TaskPageState extends State<TaskPage> {
             title: const Text("Tasks"),
           ),
           body: (state is AddNewTaskState)
-              ? (blocInstance.title.isNotEmpty)
+              ? (state.title.isNotEmpty)
                   ? Padding(
                       padding: const EdgeInsets.all(10),
                       child: ListView.builder(
-                        itemCount: blocInstance.title.length,
+                        itemCount: state.title.length,
                         itemBuilder: (context, index) => Slidable(
                           endActionPane: ActionPane(
                             motion: const ScrollMotion(),
@@ -82,9 +67,9 @@ class _TaskPageState extends State<TaskPage> {
                                       context: context,
                                       builder: (context) {
                                         titleController.text =
-                                            blocInstance.title[index];
+                                            state.title[index];
                                         descController.text =
-                                            blocInstance.description[index];
+                                            state.description[index];
                                         return SizedBox(
                                           height: 50,
                                           child: Dialog(
@@ -127,14 +112,14 @@ class _TaskPageState extends State<TaskPage> {
                                       },
                                     ),
                                     Text(
-                                      blocInstance.title[index],
+                                      state.title[index],
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 ),
                                 const Divider(),
-                                Text(blocInstance.description[index]),
+                                Text(state.description[index]),
                               ],
                             ),
                           ),
@@ -166,7 +151,7 @@ class _TaskPageState extends State<TaskPage> {
                       blocInstance.pageIndex = 1
                     }
                   : {
-                      blocInstance.add(AddNewTaskEvent()),
+                      blocInstance.add(ShowTasksEvent()),
                       blocInstance.pageIndex = 0
                     }
             },

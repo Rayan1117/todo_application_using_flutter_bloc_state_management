@@ -7,13 +7,42 @@ part 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   int pageIndex = 0;
-  final todo=Hive.box('TODO');
-  final List<String> title = [];
-  final List<String> description = [];
-  final List<String> compTitle = [];
-  final List<String> compDescription = [];
-  final List<bool> check = [];
+  final todo = Hive.box('TODO');
+  late List<String> title = [];
+  late List<String> description = [];
+  late List<String> compTitle = [];
+  late List<String> compDescription = [];
+  late List<bool> check = [];
+  void updateTask(
+      {required List title, required List description, required List check}) {
+    todo.put('title', title);
+    todo.put('description', description);
+    todo.put('check', check);
+  }
+
+  void updateCompletedTask(
+      {required List compTitle, required List compDescription}) {
+    todo.put('compTitle', compTitle);
+    todo.put('compDescription', compDescription);
+  }
+
   TaskBloc() : super(TaskInitial()) {
+    on<ShowTasksEvent>((event, emit) {
+      emit(AddNewTaskState(
+          title: title, description: description, check: check));
+    });
+
+    on<InitialFetchEvent>((event, emit) {
+      title.addAll((todo.get('title') as List<dynamic>).cast<String>());
+      description
+          .addAll((todo.get('description') as List<dynamic>).cast<String>());
+      check.addAll((todo.get('check') as List<dynamic>).cast<bool>());
+      compTitle.addAll((todo.get('compTitle') as List<dynamic>).cast<String>());
+      compDescription.addAll(
+          (todo.get('compDescription') as List<dynamic>).cast<String>());
+      emit(AddNewTaskState(
+          title: title, description: description, check: check));
+    });
     on<AddNewTaskEvent>(
       (event, emit) {
         int saveTask() {
@@ -26,6 +55,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             event.title!.clear();
             event.description!.clear();
             event.titleKey!.currentState!.save();
+            updateTask(title: title, description: description, check: check);
             return 1;
           }
           return 0;
@@ -57,6 +87,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       (event, emit) {
         title.removeAt(event.index);
         description.removeAt(event.index);
+        check.removeAt(event.index);
+        updateTask(title: title, description: description, check: check);
         emit(
           DeleteTaskState(),
         );
@@ -68,6 +100,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       (event, emit) {
         title[event.index] = event.title;
         description[event.index] = event.description;
+        updateTask(title: title, description: description, check: check);
         emit(EditTaskState());
         emit(
           AddNewTaskState(title: title, description: description, check: check),
@@ -81,6 +114,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         compDescription.add(description[event.index]);
         title.removeAt(event.index);
         description.removeAt(event.index);
+        updateCompletedTask(
+            compTitle: compTitle, compDescription: compDescription);
+        updateTask(title: title, description: description, check: check);
         emit(
           AddNewTaskState(
             title: title,
@@ -102,6 +138,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       (event, emit) {
         compTitle.removeAt(event.index);
         compDescription.removeAt(event.index);
+        updateCompletedTask(
+            compTitle: compTitle, compDescription: compDescription);
         emit(
           ShowCompletedTaskState(
               compTitle: compTitle, compDescription: compDescription),
@@ -115,6 +153,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         check.add(false);
         compTitle.removeAt(event.index);
         compDescription.removeAt(event.index);
+        updateTask(title: title, description: description, check: check);
+        updateCompletedTask(
+            compTitle: compTitle, compDescription: compDescription);
         emit(TaskUncheckState());
         emit(
           ShowCompletedTaskState(

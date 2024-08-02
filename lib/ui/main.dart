@@ -5,16 +5,19 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:todo/taskbloc/bloc/task_bloc.dart';
 import 'package:todo/ui/task_page.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
-  runApp(BlocProvider(
-    create: (context) => TaskBloc(),
-    child: const MaterialApp(
-      home: MainApp(),
+  await Hive.openBox('TODO');
+  runApp(
+    BlocProvider(
+      create: (context) => TaskBloc(),
+      child: const MaterialApp(
+        home: MainApp(),
+      ),
     ),
-  ),);
+  );
 }
 
 class MainApp extends StatelessWidget {
