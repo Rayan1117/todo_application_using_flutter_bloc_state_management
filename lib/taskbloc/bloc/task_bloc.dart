@@ -13,6 +13,30 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   late List<String> compTitle = [];
   late List<String> compDescription = [];
   late List<bool> check = [];
+
+  int saveTask(event) {
+    if (event.titleKey!.currentState!.validate()) {
+      (event is AddNewTaskEvent)
+          ? {
+              title.add(event.title!.text.toString()),
+              description.add(
+                event.description!.text.toString(),
+              ),
+              check.add(event.check)
+            }
+          : {
+              title[event.index] = event.title.text,
+              description[event.index] = event.description.text,
+            };
+      event.title!.clear();
+      event.description!.clear();
+      event.titleKey!.currentState!.save();
+      updateTask(title: title, description: description, check: check);
+      return 1;
+    }
+    return 0;
+  }
+
   void updateTask(
       {required List title, required List description, required List check}) {
     todo.put('title', title);
@@ -33,39 +57,21 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     });
 
     on<InitialFetchEvent>((event, emit) {
-        title.addAll((todo.get('title')??[]).cast<String>());
-        description.addAll(
-            (todo.get('description')??[]).cast<String>());
-        check.addAll((todo.get('check')??[]).cast<bool>());
-        compTitle.addAll(
-            (todo.get('compTitle')??[]).cast<String>());
-        compDescription.addAll(
-            (todo.get('compDescription')??[]).cast<String>());
+      title.addAll((todo.get('title') ?? []).cast<String>());
+      description.addAll((todo.get('description') ?? []).cast<String>());
+      check.addAll((todo.get('check') ?? []).cast<bool>());
+      compTitle.addAll((todo.get('compTitle') ?? []).cast<String>());
+      compDescription
+          .addAll((todo.get('compDescription') ?? []).cast<String>());
       emit(AddNewTaskState(
           title: title, description: description, check: check));
     });
     on<AddNewTaskEvent>(
       (event, emit) {
-        int saveTask() {
-          if (event.titleKey!.currentState!.validate()) {
-            title.add(event.title!.text.toString());
-            description.add(
-              event.description!.text.toString(),
-            );
-            check.add(event.check);
-            event.title!.clear();
-            event.description!.clear();
-            event.titleKey!.currentState!.save();
-            updateTask(title: title, description: description, check: check);
-            return 1;
-          }
-          return 0;
-        }
-
         (event.title != null &&
                 event.description != null &&
                 event.titleKey != null)
-            ? (saveTask() == 1)
+            ? (saveTask(event) == 1)
                 ? {
                     emit(
                       AddNewTaskState(
@@ -99,13 +105,13 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     );
     on<EditTaskEvent>(
       (event, emit) {
-        title[event.index] = event.title;
-        description[event.index] = event.description;
-        updateTask(title: title, description: description, check: check);
-        emit(EditTaskState());
-        emit(
-          AddNewTaskState(title: title, description: description, check: check),
-        );
+        if (saveTask(event) == 1) {
+          emit(EditTaskState());
+          emit(
+            AddNewTaskState(
+                title: title, description: description, check: check),
+          );
+        }
       },
     );
     on<TaskCheckedEvent>(

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -45,7 +44,7 @@ class _TaskPageState extends State<TaskPage> {
                         itemCount: state.title.length,
                         itemBuilder: (context, index) => Slidable(
                           endActionPane: ActionPane(
-                            motion: const ScrollMotion(),
+                            motion: const BehindMotion(),
                             children: [
                               IconButton(
                                 onPressed: () {

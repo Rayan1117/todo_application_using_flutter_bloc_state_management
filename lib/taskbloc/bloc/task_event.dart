@@ -21,15 +21,16 @@ class DeleteTaskEvent extends TaskEvent {
 
 class EditTaskEvent extends TaskEvent {
   final int index;
-  final String title;
-  final String description;
+  final TextEditingController title;
+  final TextEditingController description;
+  final GlobalKey<FormFieldState>? titleKey;
   final bool check;
 
-  EditTaskEvent(
+  EditTaskEvent( 
       {required this.title,
       required this.description,
       required this.index,
-      this.check = false});
+      this.check = false, required this.titleKey});
 }
 
 class TaskCheckedEvent extends TaskEvent {
