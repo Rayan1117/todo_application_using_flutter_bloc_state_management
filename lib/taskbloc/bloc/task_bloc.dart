@@ -33,13 +33,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     });
 
     on<InitialFetchEvent>((event, emit) {
-      title.addAll((todo.get('title') as List<dynamic>).cast<String>());
-      description
-          .addAll((todo.get('description') as List<dynamic>).cast<String>());
-      check.addAll((todo.get('check') as List<dynamic>).cast<bool>());
-      compTitle.addAll((todo.get('compTitle') as List<dynamic>).cast<String>());
-      compDescription.addAll(
-          (todo.get('compDescription') as List<dynamic>).cast<String>());
+        title.addAll((todo.get('title')??[]).cast<String>());
+        description.addAll(
+            (todo.get('description')??[]).cast<String>());
+        check.addAll((todo.get('check')??[]).cast<bool>());
+        compTitle.addAll(
+            (todo.get('compTitle')??[]).cast<String>());
+        compDescription.addAll(
+            (todo.get('compDescription')??[]).cast<String>());
       emit(AddNewTaskState(
           title: title, description: description, check: check));
     });

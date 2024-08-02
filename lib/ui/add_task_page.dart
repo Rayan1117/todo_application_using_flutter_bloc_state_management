@@ -17,7 +17,7 @@ class AddTaskPage extends StatelessWidget {
         leading: IconButton(
           onPressed: () {
             BlocProvider.of<TaskBloc>(context).add(
-              AddNewTaskEvent(),
+              ShowTasksEvent(),
             );
           },
           icon: const Icon(Icons.arrow_back),
