@@ -10,7 +10,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final todo = Hive.box('TODO');
   late List<String> title = [];
   late List<String> description = [];
-  late List<String> compTitle = [];
+  late List<String> compTitle = []; 
   late List<String> compDescription = [];
   late List<bool> check = [];
 
