@@ -4,13 +4,13 @@ part of 'task_bloc.dart';
 sealed class TaskEvent {}
 
 class AddNewTaskEvent extends TaskEvent {
-  final TextEditingController? title;
-  final TextEditingController? description;
-  final GlobalKey<FormFieldState>? titleKey;
+  final TextEditingController title;
+  final TextEditingController description;
+  final GlobalKey<FormState> formKey;
   final bool check;
 
   AddNewTaskEvent(
-      {this.titleKey, this.title, this.description, this.check = false});
+      {required this.formKey,required this.title,required this.description, this.check = false});
 }
 
 class DeleteTaskEvent extends TaskEvent {
@@ -23,14 +23,14 @@ class EditTaskEvent extends TaskEvent {
   final int index;
   final TextEditingController title;
   final TextEditingController description;
-  final GlobalKey<FormFieldState>? titleKey;
+  final GlobalKey<FormFieldState>? formKey;
   final bool check;
 
   EditTaskEvent( 
       {required this.title,
       required this.description,
       required this.index,
-      this.check = false, required this.titleKey});
+      this.check = false, required this.formKey});
 }
 
 class TaskCheckedEvent extends TaskEvent {

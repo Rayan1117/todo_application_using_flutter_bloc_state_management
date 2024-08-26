@@ -6,7 +6,7 @@ import 'package:todo/taskbloc/bloc/task_bloc.dart';
 class AddTaskPage extends StatelessWidget {
   AddTaskPage({super.key});
 
-  final GlobalKey<FormFieldState> titleKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
 
@@ -29,41 +29,53 @@ class AddTaskPage extends StatelessWidget {
       body: BlocListener<TaskBloc, TaskState>(
         listener: (context, state) {
           (state is AddNewTaskState) ? Navigator.of(context).pop() : null;
+          (state is ErrorState)
+              ? ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      state.msg.toString(),
+                    ),
+                  ),
+                )
+              : null;
         },
         child: Container(
           padding: const EdgeInsets.all(30),
-          child: Column(
-            children: [
-              TextFormField(
-                key: titleKey,
-                validator: (value) {
-                  return (value!.trim() == "") ? "do not leave empty" : null;
-                },
-                onSaved: (_) => Fluttertoast.showToast(msg: "task saved"),
-                controller: titleController,
-                decoration: const InputDecoration(
-                  label: Text("Title"),
-                  hintText: "enter a task title",
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  validator: (value) {
+                    return (value!.trim() == "") ? "do not leave empty" : null;
+                  },
+                  onSaved: (_) => Fluttertoast.showToast(msg: "task saved"),
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    label: Text("Title"),
+                    hintText: "enter a task title",
+                  ),
                 ),
-              ),
-              TextFormField(
-                controller: descController,
-                decoration: const InputDecoration(
-                  label: Text("Description"),
-                  hintText: "enter about your task",
-                ),
-              )
-            ],
+                TextFormField(
+                  controller: descController,
+                  decoration: const InputDecoration(
+                    label: Text("Description"),
+                    hintText: "enter about your task",
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton.small(
         onPressed: () {
+          print(descController.text);
           BlocProvider.of<TaskBloc>(context).add(
             AddNewTaskEvent(
                 title: titleController,
                 description: descController,
-                titleKey: titleKey),
+                formKey: formKey),
           );
         },
         child: const Text("save"),

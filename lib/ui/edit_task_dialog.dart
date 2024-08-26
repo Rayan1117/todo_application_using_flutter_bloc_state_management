@@ -50,7 +50,7 @@ Widget editDialog(
               onPressed: () {
                 blocInstance.add(
                   EditTaskEvent(
-                      titleKey: titleKey,
+                      formKey: titleKey,
                       title: titleController,
                       description: descController,
                       index: index),
