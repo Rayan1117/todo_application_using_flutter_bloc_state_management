@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:todo/taskbloc/bloc/task_bloc.dart';
+import 'package:todo/taskbloc/task_bloc.dart';
 import 'package:todo/ui/delete_dialog.dart';
 
 class CompletedTask extends StatelessWidget {

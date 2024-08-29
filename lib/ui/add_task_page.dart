@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:todo/taskbloc/bloc/task_bloc.dart';
+import 'package:todo/taskbloc/task_bloc.dart';
 
 class AddTaskPage extends StatelessWidget {
   AddTaskPage({super.key});
@@ -70,7 +70,6 @@ class AddTaskPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.small(
         onPressed: () {
-          print(descController.text);
           BlocProvider.of<TaskBloc>(context).add(
             AddNewTaskEvent(
                 title: titleController,

@@ -9,8 +9,9 @@ final class AddNewTaskState extends TaskState {
   final List<String> title;
   final List<String> description;
   final List<bool> check;
+  final List<int> taskid;
   final bottomIndex=0;
-  AddNewTaskState({required this.title, required this.description, required this.check});
+  AddNewTaskState( {required this.taskid,required this.title, required this.description, required this.check});
 }
 
 final class DeleteTaskState extends TaskState {}

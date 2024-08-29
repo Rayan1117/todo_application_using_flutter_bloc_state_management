@@ -4,7 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo/authbloc/auth_bloc.dart';
 import 'package:todo/ui/completed_task.dart';
-import 'package:todo/taskbloc/bloc/task_bloc.dart';
+import 'package:todo/taskbloc/task_bloc.dart';
 import 'package:todo/ui/add_task_page.dart';
 import 'package:todo/ui/delete_dialog.dart';
 import 'package:todo/ui/edit_task_dialog.dart';
@@ -33,7 +33,7 @@ class _TaskPageState extends State<TaskPage> {
     final blocInstance = BlocProvider.of<TaskBloc>(context);
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if(state is LoggedOutState){
+        if (state is LoggedOutState) {
           Navigator.of(context).pop();
         }
       },

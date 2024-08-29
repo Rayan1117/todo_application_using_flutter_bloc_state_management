@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo/auth_ui/main_auth_page.dart';
 import 'package:todo/authbloc/auth_bloc.dart';
-import 'package:todo/taskbloc/bloc/task_bloc.dart';
+import 'package:todo/taskbloc/task_bloc.dart';
 import 'package:todo/ui/task_page.dart';
 
 void main() async {

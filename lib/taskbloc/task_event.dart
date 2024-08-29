@@ -8,6 +8,8 @@ class AddNewTaskEvent extends TaskEvent {
   final TextEditingController description;
   final GlobalKey<FormState> formKey;
   final bool check;
+  int? statusCode;
+  int? taskid;
 
   AddNewTaskEvent(
       {required this.formKey,required this.title,required this.description, this.check = false});
@@ -25,8 +27,9 @@ class EditTaskEvent extends TaskEvent {
   final TextEditingController description;
   final GlobalKey<FormFieldState>? formKey;
   final bool check;
+  int? statusCode;
 
-  EditTaskEvent( 
+  EditTaskEvent(
       {required this.title,
       required this.description,
       required this.index,

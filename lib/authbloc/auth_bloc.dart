@@ -27,7 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (event.key.currentState!.validate()) {
           final http.Response response = await http
               .post(
-                Uri.parse("http://192.168.1.62:5000/todo/login"),
+                Uri.parse("http://192.168.7.62:5000/todo/login"),
                 headers: {"Content-Type": "application/json"},
                 body: jsonEncode(
                   {"email": event.email, "password": event.password},
