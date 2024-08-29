@@ -93,31 +93,31 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   }
 
   Future<Map<String, dynamic>> flagTask(TaskEvent event) async {
-      final int id;
-      final int flag;
-      if (event is TaskCheckedEvent) {
-        id = taskid[event.index];
-        flag = 1;
-      } else if (event is TaskUncheckEvent) {
-        id = taskid[event.index];
-        flag = 0;
-      } else {
-        id = 0;
-        flag = 0;
-      }
-      final http.Response response = await http.put(
-        Uri.parse(
-            "http://192.168.7.62:5000/todo/auth/taskflag?id=$id&flag=$flag"),
-        headers: {
-          "Content-Type": "application/json",
-          "authorization": "Bearer ${todo.get("token")}"
-        },
-      );
-      final body = jsonDecode(response.body)['message'];
-      if (response.statusCode == 200) {
-        return {"return": 1, "msg": body};
-      }
-      return {"return": 0, "msg": body};
+    final int id;
+    final int flag;
+    if (event is TaskCheckedEvent) {
+      id = taskid[event.index];
+      flag = 1;
+    } else if (event is TaskUncheckEvent) {
+      id = taskid[event.index];
+      flag = 0;
+    } else {
+      id = 0;
+      flag = 0;
+    }
+    final http.Response response = await http.put(
+      Uri.parse(
+          "http://192.168.7.62:5000/todo/auth/taskflag?id=$id&flag=$flag"),
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": "Bearer ${todo.get("token")}"
+      },
+    );
+    final body = jsonDecode(response.body)['message'];
+    if (response.statusCode == 200) {
+      return {"return": 1, "msg": body};
+    }
+    return {"return": 0, "msg": body};
   }
 
   Future<int> saveTask(event, emit) async {
